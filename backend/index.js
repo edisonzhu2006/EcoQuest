@@ -1,10 +1,12 @@
 const express = require('express')
+const cors = require('cors');
 const mongoose = require('mongoose')
 const Item = require('./models/item.model.js');
 const ItemRoute = require('./routes/item.route.js');
 const app = express()
 
 //middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
