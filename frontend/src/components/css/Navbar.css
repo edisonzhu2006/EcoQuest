@@ -1,0 +1,52 @@
+.navbar {
+    background-color: #A8DCA6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .nav-left,
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    z-index: 1;
+  }
+  
+  .nav-link {
+    font-size: 1rem;
+    color: #222;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .nav-link:hover {
+    text-decoration: underline;
+  }
+  
+  .nav-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .nav-logo {
+    height: 50px;
+  }
+  
+  .coin-count {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #222;
+  }
+  
+  .coin-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 0.3rem;
+    fill: #f5b800;
+  }
+  
