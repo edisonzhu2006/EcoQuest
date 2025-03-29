@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
-const { ItemSchema } = require('./item.model'); // Import ItemSchema
-const { TaskSchema } = require('./task.model'); // Import TaskSchema
+const { ItemSchema } = require('./item.model.js'); // Import ItemSchema
+const { TaskSchema } = require('./task.model.js'); // Import TaskSchema
+
+
+const UserItemSchema = new mongoose.Schema({
+    item: { type: mongoose.Schema.Types.ObjectId, ref: "Item" },
+    quantity: Number
+  });
 
 // User model
 const UserSchema = mongoose.Schema(
@@ -42,11 +48,6 @@ const UserSchema = mongoose.Schema(
     }
 );
 
-const UserItemSchema = new mongoose.Schema({
-    item: { type: mongoose.Schema.Types.ObjectId, ref: "Item" },
-    quantity: Number
-  });
-
 const bcrypt = require('bcrypt');
 
 UserSchema.pre('save', async function (next) {
@@ -61,6 +62,7 @@ UserSchema.pre('save', async function (next) {
     } catch (error) {
         next(error);
     }
+
 });
 
 module.exports = mongoose.model('User', UserSchema); // Export User model
