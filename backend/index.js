@@ -12,6 +12,15 @@ app.get('/',  function (req, res) {
 app.listen(3000, () => {console.log('Server is running on port 3000')
 });
 
+mongoose.connect('mongodb+srv://ez2103:WQtgiFLH4aYBtCZw@backend.pv7daup.mongodb.net/Backend?retryWrites=true&w=majority&appName=Backend', {
+})
+.then(() => {
+  console.log('Connected to database!');
+})
+.catch(() => {
+  console.log('Connection failed!');
+});
+
 app.post( '/api/items', async (req, res) => {
     try {
         const item = await Item.create(req.body);
@@ -61,11 +70,3 @@ app.put("/api/item/:id", async (req, res) => {
   }
 });
 
-mongoose.connect('mongodb+srv://ez2103:WQtgiFLH4aYBtCZw@backend.pv7daup.mongodb.net/Backend?retryWrites=true&w=majority&appName=Backend', {
-  })
-  .then(() => {
-    console.log('Connected to database!');
-  })
-  .catch(() => {
-    console.log('Connection failed!');
-  });
