@@ -2,6 +2,13 @@ const User = require('../models/user.model');
 const Item = require('../models/item.model');
 const Task = require('../models/task.model');
 
+
+
+// const checkUser = async(req, res) => {
+//   console.log("check User");
+//   res.status(201).json({ message: "checked user"});
+// };
+
 const createUser = async (req, res) => {
     try {
         const { username, email, password, coins, imageUrl } = req.body; // Extract user details from the request body
