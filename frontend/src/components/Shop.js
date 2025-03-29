@@ -1,24 +1,53 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import "./css/Shop.css";
+import { ReactComponent as CoinIcon } from '../assets/otherAssets/coin.svg';
 
 const Shop = () => {
-  const items = [
-    { name: "Tree", cost: 20 },
-    { name: "Plant", cost: 14 },
-    { name: "Tree", cost: 20 },
-    { name: "Tree", cost: 20 },
-    { name: "Tree", cost: 20 },
-  ];
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    // Simulate fetching from backend
+    const fetchItems = async () => {
+      // In the future, replace this with actual API call
+      const fetchedItems = [
+        { name: "Tree", price: 20, image: "https://via.placeholder.com/80x80?text=Tree" },
+        { name: "Plant", price: 14, image: "https://via.placeholder.com/80x80?text=Plant" },
+        { name: "Shrub", price: 10, image: "https://via.placeholder.com/80x80?text=Shrub" },
+        { name: "Shrub", price: 10, image: "https://via.placeholder.com/80x80?text=Shrub" },
+        { name: "Shrub", price: 10, image: "https://via.placeholder.com/80x80?text=Shrub" },
+        { name: "Shrub", price: 10, image: "https://via.placeholder.com/80x80?text=Shrub" },
+        { name: "Shrub", price: 10, image: "https://via.placeholder.com/80x80?text=Shrub" },
+
+
+      ];
+      setItems(fetchedItems);
+    };
+
+    fetchItems();
+  }, []);
+
+  const handlePurchase = (item) => {
+    const confirmPurchase = window.confirm(`Are you sure you want to purchase: ${item.name} for ${item.price} coins?`);
+    if (confirmPurchase) {
+      console.log(`Purchased: ${item.name}`);
+      // purchase(item); // to be implemented
+    }
+  };
 
   return (
-    <div className="bg-green-100 p-4 rounded-lg shadow mt-6">
-      <h2 className="text-lg font-semibold mb-4 text-center">Flower Shop</h2>
-      <div className="grid grid-cols-2 gap-4">
-        {items.map((item, idx) => (
-          <div key={idx} className="bg-white p-3 rounded shadow text-center">
-            <div className="h-12 bg-green-200 mb-2 rounded">🌳</div>
-            <div>{item.name}</div>
-            <div className="text-yellow-600 font-bold">{item.cost} 🥕</div>
+    <div className="shop-container">
+      <h2 className="shop-title">Flower Shop</h2>
+      <hr className="divider" />
+      <div className="shop-grid">
+        {items.map((item, index) => (
+          <div className="shop-item" key={index} onClick={() => handlePurchase(item)}>
+            <img src={item.image} alt={item.name} className="shop-image" />
+            <div className="item-name">{item.name}</div>
+            <hr className="item-divider" />
+            <div className="price-row">
+              <span>{item.price}</span>
+              <CoinIcon className="coin-icon" />
+            </div>
           </div>
         ))}
       </div>

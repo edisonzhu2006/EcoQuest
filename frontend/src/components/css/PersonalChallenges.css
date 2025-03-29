@@ -1,10 +1,12 @@
-/* PersonalChallenges.css */
-
 .personal-container {
     background-color: #90CF8E;
-    padding: 1.5rem;
+    padding: 1.5rem 1.5rem 0.2rem 1.5rem; /* top, right, bottom, left */
     border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     width: 100%;
+    overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   
@@ -24,11 +26,34 @@
     margin-left: auto;
     margin-right: auto;
   }
-  
-  .challenges-list {
-    display: flex;
-    flex-direction: column;
+
+  .personal-grid {
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 1rem;
+    overflow-y: auto;
+    flex-grow: 1;
+    max-height: calc(100vh - 250px);
+    margin-bottom: 1rem;
+  
+    /* This gives space between scrollbar and content */
+    padding-right: 1rem;
+    box-sizing: content-box;
+  }
+  
+  .personal-grid::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .personal-grid::-webkit-scrollbar-thumb {
+    background-color: #78b676;
+    border-radius: 4px;
+  }
+  
+  .personal-grid::-webkit-scrollbar-track {
+    background: transparent;
+    margin-top: 2px;
+    margin-bottom: 2px;
   }
   
   .challenge-box {
@@ -74,7 +99,7 @@
   .add-button-wrapper {
     display: flex;
     justify-content: center;
-    margin-top: 1.5rem;
+    margin-top: 0.5rem;
   }
   
   .add-button {
@@ -85,7 +110,7 @@
     cursor: pointer;
     transition: background-color 0.2s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;               /* Ensures child (icon) can be centered */
+    display: flex;
     align-items: center;
     justify-content: center;
   }

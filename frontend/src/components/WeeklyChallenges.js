@@ -14,6 +14,7 @@ const WeeklyChallenges = () => {
         "Use only public transport all week",
         "Help plant 3 trees",
         "Convince someone to use a reusable water bottle",
+        "Convince someone to use a reusable water bottle",
       ];
       setChallenges(fetched);
     };

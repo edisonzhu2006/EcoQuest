@@ -2,10 +2,14 @@
 
 .weekly-container {
     background-color: #90CF8E;
-    padding: 1.5rem;
+    padding: 1.5rem 1.5rem 0.2rem 1.5rem; /* top, right, bottom, left */
     border-radius: 24px;
     width: 100%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
   }
   
   .weekly-title {
@@ -26,10 +30,39 @@
   }
   
   .challenges-list {
-    display: flex;
+    /* display: flex;
     flex-direction: column;
+    gap: 1rem; */
+
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 1rem;
+    overflow-y: auto;
+    flex-grow: 1;
+    max-height: calc(100vh - 250px);
+    margin-bottom: 1rem;
+  
+    /* This gives space between scrollbar and content */
+    padding-right: 1rem;
+    box-sizing: content-box;
   }
+
+    
+  .challenges-list::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .challenges-list::-webkit-scrollbar-thumb {
+    background-color: #78b676;
+    border-radius: 4px;
+  }
+  
+  .challenges-list::-webkit-scrollbar-track {
+    background: transparent;
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+  
   .challenge-box {
     background-color: #EEFFEE;
     border-radius: 16px;

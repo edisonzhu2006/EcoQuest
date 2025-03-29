@@ -4,27 +4,21 @@ import Garden from '../components/Garden';
 import WeeklyChallenges from '../components/WeeklyChallenges';
 import PersonalChallenges from '../components/PersonalChallenges';
 import Shop from '../components/Shop';
+import './css/Home.css'; // Make sure to import it
 
 const Home = () => {
   return (
     <div className="home-container">
       <Navbar />
 
-      <main style={{ padding: '1rem' }}>
+      <main>
         {/* Garden Section */}
-        <section style={{ marginBottom: '2rem' }}>
+        <section className="garden-section">
           <Garden />
         </section>
 
         {/* Triple Column Layout */}
-        <section
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr 1fr',
-            gap: '1.5rem',
-            alignItems: 'flex-start',
-          }}
-        >
+        <section className="triple-section">
           <WeeklyChallenges />
           <PersonalChallenges />
           <Shop />

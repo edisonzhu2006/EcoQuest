@@ -3,17 +3,28 @@ import "./css/PersonalChallenges.css";
 import { ReactComponent as CheckIcon } from '../assets/otherAssets/checkmark.svg'; 
 import { ReactComponent as AddIcon } from '../assets/otherAssets/addicon.svg'; 
 
-
 const PersonalChallenges = () => {
-  // Placeholder: in the future, fetch from backend
   const [challenges, setChallenges] = useState([]);
 
   useEffect(() => {
-    // Simulate fetching from backend
     const fetchChallenges = async () => {
       const fetched = [
         "Walk to school today",
         "Setup a recycling bin in office",
+        "try new things",
+        "asdasdasdasd",
+        "try new things",
+        "asdasdasdasd",
+        "try new things",
+        "asdasdasdasd",
+        "try new things",
+        "asdasdasdasd",
+        "try new things",
+        "asdasdasdasd",
+        "try new things",
+        "asdasdasdasd",
+        "try new things",
+        "asdasdasdasd"
       ];
       setChallenges(fetched);
     };
@@ -22,22 +33,18 @@ const PersonalChallenges = () => {
   }, []);
 
   const handleComplete = (challenge) => {
-    // Placeholder: this will call the backend function in the future
     console.log(`Completed: ${challenge}`);
-    // completed(challenge); // <- future implementation
   };
 
   const addPersonalChallenge = () => {
-    // Placeholder for adding a new challenge
     console.log("Add personal challenge clicked");
-    // addPersonalChallenge(); // <- future implementation
   };
 
   return (
     <div className="personal-container">
       <h2 className="personal-title">Personal Challenges</h2>
       <hr className="divider" />
-      <div className="challenges-list">
+      <div className="personal-grid">
         {challenges.map((challenge, index) => (
           <div className="challenge-box" key={index}>
             <span className="challenge-text">{challenge}</span>
