@@ -1,4 +1,5 @@
 import React from 'react';
+import "./css/PersonalChallenges.css";
 
 const PersonalChallenges = () => {
   const personal = [
