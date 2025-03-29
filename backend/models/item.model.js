@@ -4,12 +4,17 @@ const mongoose = require("mongoose");
 const ItemSchema = new mongoose.Schema({
   name: { 
     type: String, 
-    required: [true , "Please enter product name" ],
+    required: [true , "Please enter item name" ],
     default: "Sample name", 
 } ,
   cost: Number,
   description: String,
-  type: String
+  type: String,
+  imageUrl: { 
+    type: String, 
+    required: true, 
+    default: "/images/sample.jpg",
+  },
 });
 
 const item = mongoose.model("Item", ItemSchema);
