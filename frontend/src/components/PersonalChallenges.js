@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import "./css/PersonalChallenges.css";
-import { ReactComponent as CheckIcon } from '../assets/otherAssets/checkmark.svg'; // assuming you put the svg here
+import { ReactComponent as CheckIcon } from '../assets/otherAssets/checkmark.svg'; 
+import { ReactComponent as AddIcon } from '../assets/otherAssets/addicon.svg'; 
+
 
 const PersonalChallenges = () => {
   // Placeholder: in the future, fetch from backend
@@ -25,6 +27,12 @@ const PersonalChallenges = () => {
     // completed(challenge); // <- future implementation
   };
 
+  const addPersonalChallenge = () => {
+    // Placeholder for adding a new challenge
+    console.log("Add personal challenge clicked");
+    // addPersonalChallenge(); // <- future implementation
+  };
+
   return (
     <div className="personal-container">
       <h2 className="personal-title">Personal Challenges</h2>
@@ -38,6 +46,11 @@ const PersonalChallenges = () => {
             </button>
           </div>
         ))}
+      </div>
+      <div className="add-button-wrapper">
+        <button className="add-button" onClick={addPersonalChallenge}>
+          <AddIcon className="add-icon" />
+        </button>
       </div>
     </div>
   );
