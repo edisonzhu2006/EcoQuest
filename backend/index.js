@@ -3,6 +3,8 @@ const cors = require('cors');
 const mongoose = require('mongoose')
 const Item = require('./models/item.model.js');
 const ItemRoute = require('./routes/item.route.js');
+const UserRoute = require('./routes/user.route.js');
+const WeeklyTaskRoute = require('./routes/weeklytask.route.js');
 const app = express()
 
 //middleware
@@ -12,7 +14,8 @@ app.use(express.urlencoded({ extended: true }));
 
 //routes
 app.use("/api/items", ItemRoute);
-app.use("/api/user", ItemRoute);
+app.use("/api/users", UserRoute);
+app.use("/api/weeklytasks", WeeklyTaskRoute);
 
 app.listen(3000, () => {console.log('Server is running on port 3000')
 });

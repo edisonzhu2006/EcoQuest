@@ -2,15 +2,26 @@ const User = require('../models/user.model');
 const Item = require('../models/item.model');
 const Task = require('../models/task.model');
 
-const createUser  = async (req,res ) => {
+const createUser = async (req, res) => {
     try {
-        const item = await Item.create(req.body);
-        res.status(200).json(item);
+        const { username, email, password, coins, imageUrl } = req.body; // Extract user details from the request body
+
+        // Create a new user
+        const user = await User.create({
+            username,
+            email,
+            password,
+            coins: coins, // Default to 0 if coins are not provided
+            imageUrl: imageUrl, // Default image if not provided
+        });
+
+        // Respond with the created user
+        res.status(201).json({ message: "User created successfully", user });
+    } catch (error) {
+        // Handle errors (e.g., validation errors, duplicate email)
+        res.status(500).json({ error: error.message });
     }
-    catch (error) {
-        res.status(500).json({error: error.message });
-    }
-}   
+};
 
 const updateWallet  = async (req,res) => {
     try { 
@@ -105,7 +116,8 @@ const deleteTask = async (req, res) => {
   };
 
   module.exports = 
-    {updateWallet, 
+    {createUser,
     updateInventory,
+    updateWallet,
     updateTask, 
     deleteTask}; // Export the functions for use in routes

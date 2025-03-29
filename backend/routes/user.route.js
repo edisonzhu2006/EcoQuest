@@ -6,10 +6,10 @@ const {updateInventory} = require("../controllers/user.controller.js");
 const {updateTask} = require("../controllers/user.controller.js");
 const {deleteTask} = require("../controllers/user.controller.js");
 
-router.post("/signin", createUser);
-router.post("/:userId/wallet", updateWallet);
-router.post("/:userId/inventory", updateInventory);
-router.post("/task", updateTask);
+router.post("/", createUser);
+router.put("/:userId/wallet", updateWallet);
+router.put("/:userId/inventory", updateInventory);
+router.put("/task", updateTask);
 router.delete("/task/:userId/:taskId", deleteTask);
 
 module.exports = router;
