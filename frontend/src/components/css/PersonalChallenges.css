@@ -1,10 +1,10 @@
 .personal-container {
-    background-color: #90CF8E;
-    padding: 1.5rem 1.5rem 0.2rem 1.5rem; /* top, right, bottom, left */
+    background-color: #C7EEC3;
+    padding: 1.5rem 1.5rem 0.75rem 1.5rem; /* top, right, bottom, left */
     border-radius: 24px;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 80%;
     width: 100%;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -56,15 +56,15 @@
     margin-bottom: 2px;
   }
   
-  .challenge-box {
+  .challenge-box-p {
     background-color: #EEFFEE;
     border-radius: 16px;
     display: flex;
     overflow: hidden;
-    height: 100px;
+    height: 5rem;
   }
   
-  .challenge-text {
+  .challenge-text-p {
     flex: 1;
     padding: 1.25rem;
     font-size: 1rem;
@@ -73,7 +73,7 @@
     color: #1a1a1a;
   }
   
-  .checkmark {
+  .checkmark-p {
     background-color: #a8dba8;
     border: none;
     width: 10%;

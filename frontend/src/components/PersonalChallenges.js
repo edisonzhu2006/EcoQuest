@@ -46,9 +46,9 @@ const PersonalChallenges = () => {
       <hr className="divider" />
       <div className="personal-grid">
         {challenges.map((challenge, index) => (
-          <div className="challenge-box" key={index}>
-            <span className="challenge-text">{challenge}</span>
-            <button className="checkmark" onClick={() => handleComplete(challenge)}>
+          <div className="challenge-box-p" key={index}>
+            <span className="challenge-text-p">{challenge}</span>
+            <button className="checkmark-p" onClick={() => handleComplete(challenge)}>
               <CheckIcon className="check-icon" />
             </button>
           </div>
