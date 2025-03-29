@@ -1,11 +1,11 @@
 import React from 'react';
-import './Signin.css';
+import './css/SignUp.css';
 
-function SignIn() {
+function SignUp() {
   return (
     <div className="signin-container">
       <div className="signin-card">
-        <h2>Sign In</h2>
+        <h2>Sign Up</h2>
         <input type="text" placeholder="Username or Email" />
         <input type="password" placeholder="Password" />
         <div className="signin-options">
@@ -15,13 +15,13 @@ function SignIn() {
           </label>
           <a href="#">Forgot password?</a>
         </div>
-        <button className="signin-button">Sign In</button>
+        <button className="signin-button">Sign Up</button>
         <p className="signup-text">
-          Don't have an account? <a href="#">Sign Up</a>
+          Have an account? <a href="#">Login</a>
         </p>
       </div>
     </div>
   );
 }
 
-export default SignIn;
+export default SignUp;
