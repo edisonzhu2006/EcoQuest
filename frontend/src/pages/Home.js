@@ -12,18 +12,21 @@ const Home = () => {
 
       <main style={{ padding: '1rem' }}>
         {/* Garden Section */}
-        <section>
+        <section style={{ marginBottom: '2rem' }}>
           <Garden />
         </section>
 
-        {/* Challenges Section */}
-        <section style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2rem' }}>
+        {/* Triple Column Layout */}
+        <section
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr 1fr',
+            gap: '1.5rem',
+            alignItems: 'flex-start',
+          }}
+        >
           <WeeklyChallenges />
           <PersonalChallenges />
-        </section>
-
-        {/* Shop Section */}
-        <section style={{ marginTop: '2rem' }}>
           <Shop />
         </section>
       </main>
