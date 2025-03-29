@@ -1,33 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import "./css/Shop.css";
+import './css/Shop.css';
 import { ReactComponent as CoinIcon } from '../assets/otherAssets/coin.svg';
 
 const Shop = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    // Simulate fetching from backend
     const fetchItems = async () => {
-      // In the future, replace this with actual API call
-      const fetchedItems = [
-        { name: "Tree", price: 20, image: "https://via.placeholder.com/80x80?text=Tree" },
-        { name: "Plant", price: 14, image: "https://via.placeholder.com/80x80?text=Plant" },
-        { name: "Shrub", price: 10, image: "https://via.placeholder.com/80x80?text=Shrub" },
-        { name: "Shrub", price: 10, image: "https://via.placeholder.com/80x80?text=Shrub" },
-        { name: "Shrub", price: 10, image: "https://via.placeholder.com/80x80?text=Shrub" },
-        { name: "Shrub", price: 10, image: "https://via.placeholder.com/80x80?text=Shrub" },
-        { name: "Shrub", price: 10, image: "https://via.placeholder.com/80x80?text=Shrub" },
-
-
-      ];
-      setItems(fetchedItems);
+      try {
+        const response = await fetch('http://localhost:3000/api/items'); // Updated base URL to match frontend
+        const data = await response.json();
+        setItems(data);
+      } catch (error) {
+        console.error("Error fetching items:", error);
+      }
     };
 
     fetchItems();
   }, []);
 
   const handlePurchase = (item) => {
-    const confirmPurchase = window.confirm(`Are you sure you want to purchase: ${item.name} for ${item.price} coins?`);
+    const confirmPurchase = window.confirm(`Are you sure you want to purchase: ${item.name} for ${item.cost || 0} coins?`);
     if (confirmPurchase) {
       console.log(`Purchased: ${item.name}`);
       // purchase(item); // to be implemented
@@ -40,12 +33,12 @@ const Shop = () => {
       <hr className="divider" />
       <div className="shop-grid">
         {items.map((item, index) => (
-          <div className="shop-item" key={index} onClick={() => handlePurchase(item)}>
-            <img src={item.image} alt={item.name} className="shop-image" />
+          <div className="shop-item" key={item._id || index} onClick={() => handlePurchase(item)}>
+            <img src={item.imageUrl} alt={item.name} className="shop-image" />
             <div className="item-name">{item.name}</div>
             <hr className="item-divider" />
             <div className="price-row">
-              <span>{item.price}</span>
+              <span>{item.cost || 0}</span>
               <CoinIcon className="coin-icon" />
             </div>
           </div>
