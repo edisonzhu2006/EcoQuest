@@ -5,39 +5,35 @@ import { ReactComponent as AddIcon } from '../assets/otherAssets/addicon.svg';
 
 const PersonalChallenges = () => {
   const [challenges, setChallenges] = useState([]);
+  const userId = "USER_ID_HERE"; // Replace with actual user ID from auth/session
 
   useEffect(() => {
     const fetchChallenges = async () => {
-      const fetched = [
-        "Walk to school today",
-        "Setup a recycling bin in office",
-        "try new things",
-        "asdasdasdasd",
-        "try new things",
-        "asdasdasdasd",
-        "try new things",
-        "asdasdasdasd",
-        "try new things",
-        "asdasdasdasd",
-        "try new things",
-        "asdasdasdasd",
-        "try new things",
-        "asdasdasdasd",
-        "try new things",
-        "asdasdasdasd"
-      ];
-      setChallenges(fetched);
+      try {
+        const response = await fetch(`http://localhost:3000/api/user/${userId}`);
+        const data = await response.json();
+
+        if (Array.isArray(data.personalTasks)) {
+          setChallenges(data.personalTasks);
+        } else {
+          console.error("Invalid personalTasks format", data);
+        }
+      } catch (error) {
+        console.error("Error fetching personal challenges:", error);
+      }
     };
 
     fetchChallenges();
-  }, []);
+  }, [userId]);
 
   const handleComplete = (challenge) => {
     console.log(`Completed: ${challenge}`);
+    // Optionally: call backend to mark as completed
   };
 
   const addPersonalChallenge = () => {
     console.log("Add personal challenge clicked");
+    // Optionally: open modal to add new task and post to backend
   };
 
   return (

@@ -4,11 +4,12 @@ import { ReactComponent as CoinIcon } from '../assets/otherAssets/coin.svg';
 
 const Shop = () => {
   const [items, setItems] = useState([]);
+  const awsBaseUrl = "https://ecoquest-storageofimages-3292025-princeton.s3.us-east-2.amazonaws.com"; // Replace with actual AWS S3 bucket URL
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/items'); // Updated base URL to match frontend
+        const response = await fetch('http://localhost:3000/api/items');
         const data = await response.json();
         setItems(data);
       } catch (error) {
@@ -34,7 +35,11 @@ const Shop = () => {
       <div className="shop-grid">
         {items.map((item, index) => (
           <div className="shop-item" key={item._id || index} onClick={() => handlePurchase(item)}>
-            <img src={item.imageUrl} alt={item.name} className="shop-image" />
+            <img
+              src={`${awsBaseUrl}${item.imageUrl}`} // Combine AWS base with backend path
+              alt={item.name}
+              className="shop-image"
+            />
             <div className="item-name">{item.name}</div>
             <hr className="item-divider" />
             <div className="price-row">
