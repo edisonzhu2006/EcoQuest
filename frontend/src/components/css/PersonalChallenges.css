@@ -12,7 +12,7 @@
   
   .personal-title {
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
     color: #222;
@@ -67,7 +67,7 @@
   .challenge-text-p {
     flex: 1;
     padding: 1.25rem;
-    font-size: 1rem;
+    font-size: 0.72rem;
     display: flex;
     align-items: center;
     color: #1a1a1a;
@@ -150,7 +150,7 @@
   }
   
   .popup-title {
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: 600;
     color: #1a1a1a;
     margin-bottom: 1rem;
@@ -163,7 +163,7 @@
     border-radius: 12px;
     border: 1px solid #ccc;
     margin-bottom: 1rem;
-    font-size: 1rem;
+    font-size: 0.75rem;
     outline: none;
   }
   
@@ -181,7 +181,7 @@
   .popup-cancel {
     flex: 1;
     padding: 0.75rem;
-    font-size: 1rem;
+    font-size: 0.75rem;
     border: none;
     border-radius: 12px;
     cursor: pointer;
@@ -203,5 +203,26 @@
   
   .popup-cancel:hover {
     background-color: #bbb;
+  }
+  
+
+  .easy-check {
+    background-color: #a8dba8; /* green */
+  }
+  
+  .medium-check {
+    background-color: #ffe18d; /* yellow */
+  }
+  
+  .hard-check {
+    background-color: #f19999; /* red */
+  }
+  
+
+  /* New container hover effect when checkmark is hovered */
+.challenge-box-p:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.02);
+    transition: all 0.2s ease-in-out;
   }
   

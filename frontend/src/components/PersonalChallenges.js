@@ -72,6 +72,15 @@ const PersonalChallenges = () => {
     }
   };
 
+  const getDifficultyClass = (type) => {
+    switch (type) {
+      case 'easy': return 'easy-check';
+      case 'medium': return 'medium-check';
+      case 'hard': return 'hard-check';
+      default: return '';
+    }
+  };
+
   return (
     <div className="personal-container">
       <h2 className="personal-title">Personal Challenges</h2>
@@ -80,7 +89,7 @@ const PersonalChallenges = () => {
         {challenges.map((challenge) => (
           <div className="challenge-box-p" key={challenge._id}>
             <span className="challenge-text-p">{challenge.title}</span>
-            <button className="checkmark-p" onClick={() => handleComplete(challenge)}>
+            <button className={`checkmark-p ${getDifficultyClass(challenge.type)}`} onClick={() => handleComplete(challenge)}>
               <CheckIcon className="check-icon" />
             </button>
           </div>
