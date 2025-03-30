@@ -1,13 +1,9 @@
 const User = require('../models/user.model');
 const Item = require('../models/item.model');
-const Task = require('../models/task.model');
+const mongoose = require('mongoose');
+const { DailyTask }= require('../models/task.model');
+const bcrypt = require("bcrypt");
 
-
-
-// const checkUser = async(req, res) => {
-//   console.log("check User");
-//   res.status(201).json({ message: "checked user"});
-// };
 
 const createUser = async (req, res) => {
     try {
@@ -19,7 +15,7 @@ const createUser = async (req, res) => {
             email,
             password,
             coins: coins, // Default to 0 if coins are not provided
-            imageUrl: imageUrl, // Default image if not provided
+            imageUrl: imageUrl, // Default image URL
         });
 
         // Respond with the created user
@@ -30,17 +26,52 @@ const createUser = async (req, res) => {
     }
 };
 
+const getUser = async (req, res) => {
+    try {
+      const {id} =  req.params;
+      console.log(id);
+      // Validate the ID format
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: "Invalid user ID format" });
+      }
+
+      const user = await User.findById(id);
+      
+  
+      if (!user) {
+      return res.status(404).send('item not found');
+      }
+      
+      res.status(200).json(user);
+
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+
+const getUsers = async (req, res) => {
+    try {
+      const users = await User.find();
+      res.status(200).json(users);
+    }
+    
+    catch (error) {
+      res.status(404).json({ message: error.message });
+    }
+  };
+
 const updateWallet  = async (req,res) => {
     try { 
         const { id } = req.params; // Extract user ID from the request parameters
         const { coins } = req.body; // Extract the coins value from the request body
         
+        //Find user and update wallet
+        const user = await User.findById(id);
+
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-
-        //Find user and update wallet
-        const user = await User.findById(id);
+        
         user.coins += coins;
         await user.save();
         res.status(200).json({message: "wallet updated"});
@@ -53,10 +84,11 @@ const updateWallet  = async (req,res) => {
 
 
 const updateInventory = async (req, res) => {
-    const { userId, itemId } = req.body;
-  
     try {
-      const user = await User.findById(userId);
+      const { id } = req.params;
+      const { itemId } = req.body;
+  
+      const user = await User.findById(id);
       if (!user) return res.status(404).json({ error: "User not found" });
   
       const item = await Item.findById(itemId);
@@ -80,40 +112,40 @@ const updateInventory = async (req, res) => {
     }
   };
 
-const updateTask = async (req, res) => {
-    const { userId, taskId } = req.params;
-    const { title, type, completed } = req.body;
-  
+  const addTask = async (req, res) => {
     try {
-      const user = await User.findById(userId);
+      const { id } = req.params;
+      const { title, type, completed } = req.body;
+  
+      const user = await User.findById( id );
       if (!user) return res.status(404).json({ error: "User not found" });
   
-      const task = user.tasks.find(task => task.id === taskId);
-      if (!task) return res.status(404).json({ error: "Task not found" });
-  
-      if (title !== undefined) task.title = title;
-      if (type !== undefined) task.type = type;
-      if (completed !== undefined) task.completed = completed;
-  
+      user.dailytasks.push({ title, type, completed });
       await user.save();
   
-      res.status(200).json({ message: "Task updated", task });
+      res.status(200).json({ message: "Task added", dailyTasks: user.dailyTasks });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   };
-
-const deleteTask = async (req, res) => {
+  const deleteTask = async (req, res) => {
     const { userId, taskId } = req.params;
   
     try {
       const user = await User.findById(userId);
       if (!user) return res.status(404).json({ error: "User not found" });
   
-      const taskIndex = user.tasks.findIndex(task => task.id === taskId);
-      if (taskIndex === -1) return res.status(404).json({ error: "Task not found" });
+      if (!user.dailytasks) {
+        return res.status(400).json({ error: "User has no tasks" });
+      }
   
-      user.tasks.splice(taskIndex, 1); // remove task from array
+      const taskIndex = user.dailytasks.findIndex(task => task.id === taskId);
+  
+      if (taskIndex === -1) {
+        return res.status(404).json({ error: "Task not found" });
+      }
+  
+      user.dailytasks.splice(taskIndex, 1);
       await user.save();
   
       res.status(200).json({ message: "Task deleted" });
@@ -124,7 +156,9 @@ const deleteTask = async (req, res) => {
 
   module.exports = 
     {createUser,
+    getUser,
+    getUsers,
     updateInventory,
     updateWallet,
-    updateTask, 
+    addTask, 
     deleteTask}; // Export the functions for use in routes

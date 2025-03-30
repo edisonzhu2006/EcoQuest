@@ -1,4 +1,3 @@
-//Task model
 const mongoose = require("mongoose");
 
 const TaskSchema = new mongoose.Schema({
@@ -7,7 +6,12 @@ const TaskSchema = new mongoose.Schema({
   completed: Boolean
 });
 
-const Task = mongoose.model("Task", TaskSchema);
+// Create separate models backed by different collections
+const WeeklyTask = mongoose.model("WeeklyTask", TaskSchema);
+const DailyTask = mongoose.model("DailyTask", TaskSchema);
 
-// ✅ Export both the schema AND the model
-module.exports = { TaskSchema, Task };
+module.exports = {
+  WeeklyTask,
+  DailyTask,
+  TaskSchema
+};

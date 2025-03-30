@@ -1,11 +1,16 @@
 const mongoose = require('mongoose');
 const { ItemSchema } = require('./item.model.js'); // Import ItemSchema
-const { TaskSchema } = require('./task.model.js'); // Import TaskSchema
-
+const { TaskSchema } = require('./task.model.js'); // Import DailyTaskSchema
 
 const UserItemSchema = new mongoose.Schema({
     item: { type: mongoose.Schema.Types.ObjectId, ref: "Item" },
     quantity: Number
+  });
+
+const UserTaskSchema = new mongoose.Schema({
+    task: { type: mongoose.Schema.Types.ObjectId, ref: "Task" },
+    completed: Boolean,
+    dateCompleted: Date
   });
 
 // User model
@@ -35,7 +40,7 @@ const UserSchema = mongoose.Schema(
         },
 
         inventory: [UserItemSchema], // Embed ItemSchema
-        tasks: [TaskSchema], // Embed TaskSchema
+        dailytasks: [TaskSchema], // Embed TaskSchema
         imageUrl: { 
             type: String, 
             required: true, 
