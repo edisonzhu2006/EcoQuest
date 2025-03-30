@@ -5,7 +5,7 @@ const Navbar = () => {
 
   return (
     <>
-    Location
+    Location Map Coming Soon!
     </>
   );
 };
