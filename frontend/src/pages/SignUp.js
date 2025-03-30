@@ -10,7 +10,8 @@ function SignUp() {
 
   const handleSignUp = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/users/signup', {
+      // const response = await fetch('http://localhost:3000/api/users/signup', { // local host
+      const response = await fetch('https://ecoquest-n5ub.onrender.com/api/users/signup', { // live
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

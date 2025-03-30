@@ -18,7 +18,8 @@ const PersonalChallenges = () => {
   useEffect(() => {
     const fetchChallenges = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/users/${userId}`);
+        // const response = await fetch(`http://localhost:3000/api/users/${userId}`); // local host
+        const response = await fetch(`https://ecoquest-n5ub.onrender.com/api/users/${userId}`); // live
         const data = await response.json();
         if (Array.isArray(data.dailytasks)) {
           setChallenges(data.dailytasks);
@@ -42,7 +43,8 @@ const PersonalChallenges = () => {
     else if (challenge.type === "hard") coinsToAdd = 15;
 
     try {
-      await fetch(`http://localhost:3000/api/users/${userId}/wallet`, {
+      // await fetch(`http://localhost:3000/api/users/${userId}/wallet`, { // local host 
+      await fetch(`https://ecoquest-n5ub.onrender.com/api/users/${userId}/wallet`, { // live
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +64,8 @@ const PersonalChallenges = () => {
 
   const handleCreateChallenge = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/users/${userId}/dailytasks`, {
+      // const res = await fetch(`http://localhost:3000/api/users/${userId}/dailytasks`, { // local host
+      const res = await fetch(`https://ecoquest-n5ub.onrender.com/api/users/${userId}/dailytasks`, { // live
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title: newChallenge, type: difficulty, completed: false })

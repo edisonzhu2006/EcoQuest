@@ -19,8 +19,8 @@ const Shop = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/items');
-        const data = await response.json();
+        // const response = await fetch('http://localhost:3000/api/items'); // local host
+        const response = await fetch('https://ecoquest-n5ub.onrender.com/api/items'); // live 
         setItems(data);
       } catch (error) {
         console.error("Error fetching items:", error);
@@ -29,7 +29,8 @@ const Shop = () => {
 
     const fetchUserCoins = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/api/users/${userId}`);
+        // const res = await fetch(`http://localhost:3000/api/users/${userId}`); // local host
+        const res = await fetch(`https://ecoquest-n5ub.onrender.com/api/users/${userId}`); // live
         const data = await res.json();
         setUserCoins(data.coins);
       } catch (err) {
@@ -52,7 +53,8 @@ const Shop = () => {
 
     try {
       // Update inventory
-      await fetch(`http://localhost:3000/api/users/${userId}/inventory`, {
+      // await fetch(`http://localhost:3000/api/users/${userId}/inventory`, { // local host
+      await fetch(`https://ecoquest-n5ub.onrender.com/api/users/${userId}/inventory`, { // live
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +63,8 @@ const Shop = () => {
       });
 
       // Subtract coins from wallet
-      await fetch(`http://localhost:3000/api/users/${userId}/wallet`, {
+      // await fetch(`http://localhost:3000/api/users/${userId}/wallet`, { // local host
+      await fetch(`https://ecoquest-n5ub.onrender.com/api/users/${userId}/wallet`, { // live
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

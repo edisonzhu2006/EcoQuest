@@ -12,7 +12,8 @@ const Navbar = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/api/users/${userId}`);
+        // const res = await fetch(`http://localhost:3000/api/users/${userId}`); // local host
+        const res = await fetch(`https://ecoquest-n5ub.onrender.com/api/users/${userId}`); // live
         const data = await res.json();
         setCoins(data.coins || 0);
         setUsername(data.username || '');

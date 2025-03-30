@@ -24,7 +24,8 @@ const Garden = () => {
       try {
         
         const userId = localStorage.getItem('userID');
-        const userRes = await fetch(`http://localhost:3000/api/users/${userId}`);
+        // const userRes = await fetch(`http://localhost:3000/api/users/${userId}`); // local host
+        const userRes = await fetch(`https://ecoquest-n5ub.onrender.com/api/users/${userId}`);
         const userData = await userRes.json();
 
         const inventory = userData.inventory || [];
@@ -32,7 +33,8 @@ const Garden = () => {
 
         const inventoryWithDetails = await Promise.all(
           inventory.map(async (entry) => {
-            const itemRes = await fetch(`http://localhost:3000/api/items/${entry.item}`);
+            // const itemRes = await fetch(`http://localhost:3000/api/items/${entry.item}`); // local host 
+            const itemRes = await fetch(`https://ecoquest-n5ub.onrender.com/api/items/${entry.item}`); // live
             const itemData = await itemRes.json();
             console.log("🧩 itemData for", entry.item, ":", itemData);
 
