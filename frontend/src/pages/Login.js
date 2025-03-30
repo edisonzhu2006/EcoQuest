@@ -11,7 +11,8 @@ function Login() {
   const handleLogin = async () => {
     try {
       // Step 1: Search for user by username to get their ID (as plain string)
-      const res = await fetch(`http://localhost:3000/api/users/search/${username}`);
+    //   const res = await fetch(`http://localhost:3000/api/users/search/${username}`); // local host
+      const res = await fetch(`https://ecoquest-n5ub.onrender.com/api/users/search/${username}`); // live
       if (!res.ok) {
         alert("Username is not correct");
         return;
@@ -21,7 +22,8 @@ function Login() {
       const userId = JSON.parse(rawId); // Safely parses "id" → id
 
       // Step 2: Get user data by ID
-      const userRes = await fetch(`http://localhost:3000/api/users/${userId}`);
+    //   const userRes = await fetch(`http://localhost:3000/api/users/${userId}`); // local host 
+    const userRes = await fetch(`https://ecoquest-n5ub.onrender.com/api/users/${userId}`); // live 
       const userData = await userRes.json();
 
       // Step 3: Compare entered password with stored hashed password using bcryptjs

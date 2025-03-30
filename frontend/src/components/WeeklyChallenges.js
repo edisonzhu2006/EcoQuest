@@ -14,7 +14,8 @@ const WeeklyChallenges = () => {
   useEffect(() => {
     const fetchChallenges = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/weeklytasks");
+        // const response = await fetch("http://localhost:3000/api/weeklytasks"); // local host
+        const response = await fetch("https://ecoquest-n5ub.onrender.com/api/weeklytasks"); // live
         const data = await response.json();
         setChallenges(data);
       } catch (error) {
@@ -34,7 +35,8 @@ const WeeklyChallenges = () => {
     else if (challenge.type === "hard") coinsToAdd = 15;
 
     try {
-      await fetch(`http://localhost:3000/api/users/${userId}/wallet`, {
+      // await fetch(`http://localhost:3000/api/users/${userId}/wallet`, { // local host 
+      await fetch(`https://ecoquest-n5ub.onrender.com/api/users/${userId}/wallet`, { // live
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

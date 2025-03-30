@@ -50,3 +50,10 @@
     fill: #f5b800;
   }
   
+  .nav-username {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #222;
+    margin-left: 0.8rem;
+  }
+  
