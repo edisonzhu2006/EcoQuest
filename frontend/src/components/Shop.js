@@ -21,6 +21,7 @@ const Shop = () => {
       try {
         // const response = await fetch('http://localhost:3000/api/items'); // local host
         const response = await fetch('https://ecoquest-n5ub.onrender.com/api/items'); // live 
+        const data = await response.json();
         setItems(data);
       } catch (error) {
         console.error("Error fetching items:", error);
