@@ -2,9 +2,19 @@ import React, { useState, useEffect } from 'react';
 import './css/Shop.css';
 import { ReactComponent as CoinIcon } from '../assets/otherAssets/coin.svg';
 
+
+
 const Shop = () => {
   const [items, setItems] = useState([]);
-  const awsBaseUrl = "https://ecoquest-storageofimages-3292025-princeton.s3.us-east-2.amazonaws.com"; // Replace with actual AWS S3 bucket URL
+  const [userCoins, setUserCoins] = useState(0);
+
+  const userId = localStorage.getItem('userID');
+  // const userId = '67e87999bd6e624628c0a3c9'; // Set to actual user ID from DB
+
+
+
+  
+  const awsBaseUrl = "https://ecoquest-storageofimages-3292025-princeton.s3.us-east-2.amazonaws.com";
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -17,14 +27,54 @@ const Shop = () => {
       }
     };
 
-    fetchItems();
-  }, []);
+    const fetchUserCoins = async () => {
+      try {
+        const res = await fetch(`http://localhost:3000/api/users/${userId}`);
+        const data = await res.json();
+        setUserCoins(data.coins);
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+      }
+    };
 
-  const handlePurchase = (item) => {
+    fetchItems();
+    fetchUserCoins();
+  }, [userId]);
+
+  const handlePurchase = async (item) => {
     const confirmPurchase = window.confirm(`Are you sure you want to purchase: ${item.name} for ${item.cost || 0} coins?`);
-    if (confirmPurchase) {
-      console.log(`Purchased: ${item.name}`);
-      // purchase(item); // to be implemented
+    if (!confirmPurchase) return;
+
+    if (userCoins < item.cost) {
+      alert("You do not have enough coins to purchase this item.");
+      return;
+    }
+
+    try {
+      // Update inventory
+      await fetch(`http://localhost:3000/api/users/${userId}/inventory`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ itemId: item._id }),
+      });
+
+      // Subtract coins from wallet
+      await fetch(`http://localhost:3000/api/users/${userId}/wallet`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ coins: -item.cost }),
+      });
+
+      alert(`Successfully purchased ${item.name}!`);
+      setUserCoins(prev => prev - item.cost);
+      window.location.reload();
+    } catch (error) {
+      console.error("Purchase failed:", error);
+      alert("Purchase failed. Please try again later.");
     }
   };
 
@@ -36,7 +86,7 @@ const Shop = () => {
         {items.map((item, index) => (
           <div className="shop-item" key={item._id || index} onClick={() => handlePurchase(item)}>
             <img
-              src={`${awsBaseUrl}${item.imageUrl}`} // Combine AWS base with backend path
+              src={`${awsBaseUrl}${item.imageUrl}`}
               alt={item.name}
               className="shop-image"
             />

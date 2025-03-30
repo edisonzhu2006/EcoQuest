@@ -1,31 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import "./css/WeeklyChallenges.css";
-import { ReactComponent as CheckIcon } from '../assets/otherAssets/checkmark.svg'; // assuming you put the svg here
+import { ReactComponent as CheckIcon } from '../assets/otherAssets/checkmark.svg';
 
 const WeeklyChallenges = () => {
-  // Placeholder: in the future, fetch from backend
   const [challenges, setChallenges] = useState([]);
 
   useEffect(() => {
-    // Simulate fetching from backend
     const fetchChallenges = async () => {
-      const fetched = [
-        "Recycle 6 plastic bottles",
-        "Use only public transport all week",
-        "Help plant 3 trees",
-        "Convince someone to use a reusable water bottle",
-        "Convince someone to use a reusable water bottle",
-      ];
-      setChallenges(fetched);
+      try {
+        const response = await fetch("http://localhost:3000/api/weeklytasks");
+        const data = await response.json();
+        setChallenges(data); // Keep full object in case we need _id later
+      } catch (error) {
+        console.error("Error fetching weekly challenges:", error);
+      }
     };
 
     fetchChallenges();
   }, []);
 
   const handleComplete = (challenge) => {
-    // Placeholder: this will call the backend function in the future
-    console.log(`Completed: ${challenge}`);
-    // completed(challenge); // <- future implementation
+    console.log(`Completed: ${challenge.title}`);
+    // Optional future: PUT to /api/weeklytasks/:id to mark complete
   };
 
   return (
@@ -33,9 +29,9 @@ const WeeklyChallenges = () => {
       <h2 className="weekly-title">Weekly Challenges</h2>
       <hr className="divider" />
       <div className="challenges-list">
-        {challenges.map((challenge, index) => (
-          <div className="challenge-box" key={index}>
-            <span className="challenge-text">{challenge}</span>
+        {challenges.map((challenge) => (
+          <div className="challenge-box" key={challenge._id}>
+            <span className="challenge-text">{challenge.title}</span>
             <button className="checkmark" onClick={() => handleComplete(challenge)}>
               <CheckIcon className="check-icon" />
             </button>
