@@ -28,7 +28,7 @@ body {
 
 .signin-card input[type="text"],
 .signin-card input[type="password"] {
-  width: 100%;
+  width: 92%;
   padding: 12px;
   margin: 8px 0;
   border: none;
