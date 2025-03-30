@@ -37,6 +37,10 @@ app.use("/api/items", ItemRoute);
 app.use("/api/users", UserRoute);
 app.use("/api/dailytasks", dailyRoutes);
 app.use("/api/weeklytasks", weeklyRoutes);
+app.get("/api/test-users", async (req, res) => {
+  const users = await User.find();
+  res.json(users);
+});
 
 // Example route
 app.get("/", (req, res) => {
