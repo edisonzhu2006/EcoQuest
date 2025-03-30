@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import './css/Garden.css';
 import {
   EcoQuestBackgroundImageDefault,
@@ -24,7 +24,7 @@ const Garden = () => {
   const [isWalking, setIsWalking] = useState(false);
   const [isJumping, setIsJumping] = useState(false);
   const [jumpY, setJumpY] = useState(0);
-  const [direction, setDirection] = useState('right'); // 👈 NEW
+  const [direction, setDirection] = useState('right');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -74,12 +74,12 @@ const Garden = () => {
       keysPressed[e.key] = true;
 
       if (e.key === 'ArrowRight') {
-        setDirection('right'); // 👈 update direction
+        setDirection('right');
         setIsWalking(true);
       }
 
       if (e.key === 'ArrowLeft') {
-        setDirection('left'); // 👈 update direction
+        setDirection('left');
         setIsWalking(true);
       }
 
@@ -99,7 +99,6 @@ const Garden = () => {
     };
 
     const movementInterval = setInterval(() => {
-      // Horizontal movement
       if (keysPressed['ArrowRight']) {
         setTigerX((prev) => Math.min(prev + 1, 90));
       }
@@ -107,7 +106,6 @@ const Garden = () => {
         setTigerX((prev) => Math.max(prev - 1, 0));
       }
 
-      // Jump physics
       if (isInAir) {
         setJumpY((prevY) => {
           const newY = prevY + jumpVelocity;
@@ -134,26 +132,28 @@ const Garden = () => {
     };
   }, []);
 
+  const treeArray = useMemo(() => {
+    let arr = [];
+    let id = 0;
+
+    treeInventory.forEach(({ type, quantity, imageUrl }) => {
+      const qty = Number(quantity);
+      if (!imageUrl || isNaN(qty) || qty <= 0) return;
+
+      for (let i = 0; i < qty; i++) {
+        arr.push({
+          id: ++id,
+          type,
+          imageUrl,
+        });
+      }
+    });
+
+    return shuffleArray(arr);
+  }, [treeInventory]);
+
   if (isLoading) return <div>Loading garden...</div>;
   if (error) return <div>{error}</div>;
-
-  let treeArray = [];
-  let id = 0;
-
-  treeInventory.forEach(({ type, quantity, imageUrl }) => {
-    const qty = Number(quantity);
-    if (!imageUrl || isNaN(qty) || qty <= 0) return;
-
-    for (let i = 0; i < qty; i++) {
-      treeArray.push({
-        id: ++id,
-        type,
-        imageUrl,
-      });
-    }
-  });
-
-  treeArray = shuffleArray(treeArray);
 
   const trees = treeArray.map((tree, i) => {
     const row = Math.floor(i / 10);
@@ -181,15 +181,11 @@ const Garden = () => {
     );
   });
 
-  // 👇 Determine which tiger image to use based on direction and state
-  let tigerImage;
-  if (isJumping) {
-    tigerImage = direction === 'left' ? TigerAvatarJumpLeft : TigerAvatarJump;
-  } else if (isWalking) {
-    tigerImage = direction === 'left' ? TigerAvatarRideLeft : TigerAvatarRide;
-  } else {
-    tigerImage = TigerAvatar;
-  }
+  const tigerImage = isJumping
+    ? direction === 'left' ? TigerAvatarJumpLeft : TigerAvatarJump
+    : isWalking
+    ? direction === 'left' ? TigerAvatarRideLeft : TigerAvatarRide
+    : TigerAvatar;
 
   return (
     <div className="garden-container">
