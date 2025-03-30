@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const connectDB = require("./config/db");
 const cors = require('cors');
 require('dotenv').config();
 
@@ -12,6 +13,7 @@ app.use(express.json()); // Parse JSON
 app.get('/', (req, res) => {
   res.send('API is working');
 });
+
 
 const connectDB = async () => {
   try {
@@ -26,5 +28,21 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
+
+require("dotenv").config();
+
+connectDB();
+
+app.use(express.json());
+
+// routes here...
+
+// ✅ Use Render's assigned port
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
+});
+
 
 module.exports = connectDB;
