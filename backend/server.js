@@ -2,6 +2,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const ItemRoute = require("./routes/item.route.js");
+const UserRoute = require("./routes/user.route.js");
+const dailyRoutes = require("./routes/dailytask.route");
+const weeklyRoutes = require("./routes/weeklytask.route");
 require("dotenv").config();
 
 const app = express();
@@ -28,6 +32,12 @@ const connectDB = async () => {
 // Connect to DB
 connectDB();
 
+//routes
+app.use("/api/items", ItemRoute);
+app.use("/api/users", UserRoute);
+app.use("/api/dailytasks", dailyRoutes);
+app.use("/api/weeklytasks", weeklyRoutes);
+
 // Example route
 app.get("/", (req, res) => {
   res.send("🚀 EcoQuest API is working!");
@@ -39,3 +49,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
+
