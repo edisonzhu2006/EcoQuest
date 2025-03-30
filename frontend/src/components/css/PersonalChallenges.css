@@ -124,4 +124,84 @@
     height: 24px;
     display: block;
   }
+  /* Add this to PersonalChallenges.css */
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(34, 34, 34, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+  }
+  
+  .popup-box {
+    background-color: #EEFFEE;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .popup-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+  }
+  
+  .popup-input,
+  .popup-select {
+    width: 90%;
+    padding: 0.75rem;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    outline: none;
+  }
+  
+  .popup-select {
+    background-color: #fff;
+  }
+  
+  .popup-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  
+  .popup-create,
+  .popup-cancel {
+    flex: 1;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .popup-create {
+    background-color: #a8dba8;
+    color: #1a1a1a;
+  }
+  
+  .popup-create:hover {
+    background-color: #8ecf8e;
+  }
+  
+  .popup-cancel {
+    background-color: #ddd;
+  }
+  
+  .popup-cancel:hover {
+    background-color: #bbb;
+  }
   

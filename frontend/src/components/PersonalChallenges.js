@@ -5,10 +5,6 @@ import { ReactComponent as AddIcon } from '../assets/otherAssets/addicon.svg';
 
 const PersonalChallenges = () => {
   const [challenges, setChallenges] = useState([]);
-  const [completed, setCompleted] = useState(() => {
-    const stored = localStorage.getItem("completedDailyChallenges");
-    return stored ? JSON.parse(stored) : [];
-  });
   const [showPopup, setShowPopup] = useState(false);
   const [newChallenge, setNewChallenge] = useState('');
   const [difficulty, setDifficulty] = useState('easy');
@@ -18,8 +14,7 @@ const PersonalChallenges = () => {
   useEffect(() => {
     const fetchChallenges = async () => {
       try {
-        // const response = await fetch(`http://localhost:3000/api/users/${userId}`); // local host
-        const response = await fetch(`https://ecoquest-n5ub.onrender.com/api/users/${userId}`); // live
+        const response = await fetch(`https://ecoquest-n5ub.onrender.com/api/users/${userId}`);
         const data = await response.json();
         if (Array.isArray(data.dailytasks)) {
           setChallenges(data.dailytasks);
@@ -35,16 +30,13 @@ const PersonalChallenges = () => {
   }, [userId]);
 
   const handleComplete = async (challenge) => {
-    if (completed.includes(challenge._id)) return;
-
     let coinsToAdd = 0;
     if (challenge.type === "easy") coinsToAdd = 5;
     else if (challenge.type === "medium") coinsToAdd = 10;
     else if (challenge.type === "hard") coinsToAdd = 15;
 
     try {
-      // await fetch(`http://localhost:3000/api/users/${userId}/wallet`, { // local host 
-      await fetch(`https://ecoquest-n5ub.onrender.com/api/users/${userId}/wallet`, { // live
+      await fetch(`https://ecoquest-n5ub.onrender.com/api/users/${userId}/wallet`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -52,20 +44,19 @@ const PersonalChallenges = () => {
         body: JSON.stringify({ coins: coinsToAdd }),
       });
 
-      const updatedCompleted = [...completed, challenge._id];
-      setCompleted(updatedCompleted);
-      localStorage.setItem("completedDailyChallenges", JSON.stringify(updatedCompleted));
+      await fetch(`https://ecoquest-n5ub.onrender.com/api/users/${userId}/tasks/${challenge._id}`, {
+        method: "DELETE",
+      });
 
       window.location.reload();
     } catch (error) {
-      console.error("Failed to update wallet:", error);
+      console.error("Failed to complete and delete task:", error);
     }
   };
 
   const handleCreateChallenge = async () => {
     try {
-      // const res = await fetch(`http://localhost:3000/api/users/${userId}/dailytasks`, { // local host
-      const res = await fetch(`https://ecoquest-n5ub.onrender.com/api/users/${userId}/dailytasks`, { // live
+      const res = await fetch(`https://ecoquest-n5ub.onrender.com/api/users/${userId}/dailytasks`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title: newChallenge, type: difficulty, completed: false })
@@ -87,13 +78,8 @@ const PersonalChallenges = () => {
       <hr className="divider" />
       <div className="personal-grid">
         {challenges.map((challenge) => (
-          <div
-            className={`challenge-box-p ${completed.includes(challenge._id) ? 'completed' : ''}`}
-            key={challenge._id}
-          >
-            <span className="challenge-text-p">
-              {completed.includes(challenge._id) ? <s>{challenge.title}</s> : challenge.title}
-            </span>
+          <div className="challenge-box-p" key={challenge._id}>
+            <span className="challenge-text-p">{challenge.title}</span>
             <button className="checkmark-p" onClick={() => handleComplete(challenge)}>
               <CheckIcon className="check-icon" />
             </button>
@@ -109,7 +95,7 @@ const PersonalChallenges = () => {
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup-box">
-            <h3>Create New Challenge</h3>
+            <h3 className="popup-title">Create New Challenge</h3>
             <input
               className="popup-input"
               type="text"
