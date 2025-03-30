@@ -17,7 +17,7 @@
   }
   
   .nav-link {
-    font-size: 1rem;
+    font-size: 0.75rem;
     color: #222;
     text-decoration: none;
     font-weight: 500;
@@ -38,7 +38,7 @@
   }
   
   .coin-count {
-    font-size: 1rem;
+    font-size: 0.75rem;
     font-weight: 500;
     color: #222;
   }
@@ -51,7 +51,7 @@
   }
   
   .nav-username {
-    font-size: 1rem;
+    font-size: 0.75rem;
     font-weight: 500;
     color: #222;
     margin-left: 0.8rem;
