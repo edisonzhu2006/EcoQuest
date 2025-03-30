@@ -1,20 +1,16 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const connectDB = require("./config/db");
-const cors = require('cors');
-require('dotenv').config();
+// server.js
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(express.json()); // Parse JSON
 
-// Example route
-app.get('/', (req, res) => {
-  res.send('API is working');
-});
-
-
+// MongoDB connection
 const connectDB = async () => {
   try {
     const uri = process.env.MONGODB_URI;
@@ -22,27 +18,24 @@ const connectDB = async () => {
       throw new Error("MONGODB_URI is undefined");
     }
     await mongoose.connect(uri);
-    console.log("MongoDB connected");
+    console.log(" MongoDB connected");
   } catch (err) {
-    console.error("MongoDB connection error:", err);
+    console.error(" MongoDB connection error:", err);
     process.exit(1);
   }
 };
 
-require("dotenv").config();
-
+// Connect to DB
 connectDB();
 
-app.use(express.json());
+// Example route
+app.get("/", (req, res) => {
+  res.send("🚀 EcoQuest API is working!");
+});
 
-// routes here...
-
-// ✅ Use Render's assigned port
+// Port
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
-
-
-module.exports = connectDB;
