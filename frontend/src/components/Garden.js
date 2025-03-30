@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './css/Garden.css';
-import { EcoQuestBackgroundImageDefault, TigerAvatar } from '../assets/gardenAssets/gardenIndex';
+import {
+  EcoQuestBackgroundImageDefault,
+  TigerAvatar,
+  TigerAvatarRide,
+  TigerAvatarJump,
+  TigerAvatarRideLeft,
+  TigerAvatarJumpLeft,
+} from '../assets/gardenAssets/gardenIndex';
 
 function shuffleArray(array) {
   const shuffled = [...array];
@@ -14,6 +21,10 @@ function shuffleArray(array) {
 const Garden = () => {
   const [treeInventory, setTreeInventory] = useState([]);
   const [tigerX, setTigerX] = useState(0);
+  const [isWalking, setIsWalking] = useState(false);
+  const [isJumping, setIsJumping] = useState(false);
+  const [jumpY, setJumpY] = useState(0);
+  const [direction, setDirection] = useState('right'); // 👈 NEW
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -22,21 +33,16 @@ const Garden = () => {
   useEffect(() => {
     const fetchInventory = async () => {
       try {
-        
         const userId = localStorage.getItem('userID');
-        // const userRes = await fetch(`http://localhost:3000/api/users/${userId}`); // local host
         const userRes = await fetch(`https://ecoquest-n5ub.onrender.com/api/users/${userId}`);
         const userData = await userRes.json();
 
         const inventory = userData.inventory || [];
-        console.log("📦 Raw user inventory:", inventory);
 
         const inventoryWithDetails = await Promise.all(
           inventory.map(async (entry) => {
-            // const itemRes = await fetch(`http://localhost:3000/api/items/${entry.item}`); // local host 
-            const itemRes = await fetch(`https://ecoquest-n5ub.onrender.com/api/items/${entry.item}`); // live
+            const itemRes = await fetch(`https://ecoquest-n5ub.onrender.com/api/items/${entry.item}`);
             const itemData = await itemRes.json();
-            console.log("🧩 itemData for", entry.item, ":", itemData);
 
             return {
               type: itemData.name?.toLowerCase().replace(/\s+/g, ''),
@@ -46,7 +52,6 @@ const Garden = () => {
           })
         );
 
-        console.log("🌲 treeInventory (with item details):", inventoryWithDetails);
         setTreeInventory(inventoryWithDetails);
         setIsLoading(false);
       } catch (err) {
@@ -60,31 +65,84 @@ const Garden = () => {
   }, []);
 
   useEffect(() => {
+    let keysPressed = {};
+    let jumpVelocity = 0;
+    let gravity = -1.2;
+    let isInAir = false;
+
     const handleKeyDown = (e) => {
+      keysPressed[e.key] = true;
+
       if (e.key === 'ArrowRight') {
-        setTigerX((prev) => Math.min(prev + 2, 90));
-      } else if (e.key === 'ArrowLeft') {
-        setTigerX((prev) => Math.max(prev - 2, 0));
+        setDirection('right'); // 👈 update direction
+        setIsWalking(true);
+      }
+
+      if (e.key === 'ArrowLeft') {
+        setDirection('left'); // 👈 update direction
+        setIsWalking(true);
+      }
+
+      if (e.key === 'ArrowUp' && !isInAir) {
+        jumpVelocity = 12;
+        isInAir = true;
+        setIsJumping(true);
       }
     };
 
+    const handleKeyUp = (e) => {
+      delete keysPressed[e.key];
+
+      if (!keysPressed['ArrowRight'] && !keysPressed['ArrowLeft']) {
+        setIsWalking(false);
+      }
+    };
+
+    const movementInterval = setInterval(() => {
+      // Horizontal movement
+      if (keysPressed['ArrowRight']) {
+        setTigerX((prev) => Math.min(prev + 1, 90));
+      }
+      if (keysPressed['ArrowLeft']) {
+        setTigerX((prev) => Math.max(prev - 1, 0));
+      }
+
+      // Jump physics
+      if (isInAir) {
+        setJumpY((prevY) => {
+          const newY = prevY + jumpVelocity;
+          jumpVelocity += gravity;
+
+          if (newY <= 0) {
+            isInAir = false;
+            setIsJumping(false);
+            return 0;
+          }
+
+          return newY;
+        });
+      }
+    }, 30);
+
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+      clearInterval(movementInterval);
+    };
   }, []);
 
   if (isLoading) return <div>Loading garden...</div>;
   if (error) return <div>{error}</div>;
 
-  // Build tree array from full inventory (with safety guard and logging)
   let treeArray = [];
   let id = 0;
 
   treeInventory.forEach(({ type, quantity, imageUrl }) => {
     const qty = Number(quantity);
-    if (!imageUrl || isNaN(qty) || qty <= 0) {
-      console.warn("⚠️ Skipping invalid tree entry:", { type, quantity, imageUrl });
-      return;
-    }
+    if (!imageUrl || isNaN(qty) || qty <= 0) return;
 
     for (let i = 0; i < qty; i++) {
       treeArray.push({
@@ -96,8 +154,6 @@ const Garden = () => {
   });
 
   treeArray = shuffleArray(treeArray);
-
-  console.log("🧮 Final treeArray to render:", treeArray.length, treeArray);
 
   const trees = treeArray.map((tree, i) => {
     const row = Math.floor(i / 10);
@@ -125,6 +181,16 @@ const Garden = () => {
     );
   });
 
+  // 👇 Determine which tiger image to use based on direction and state
+  let tigerImage;
+  if (isJumping) {
+    tigerImage = direction === 'left' ? TigerAvatarJumpLeft : TigerAvatarJump;
+  } else if (isWalking) {
+    tigerImage = direction === 'left' ? TigerAvatarRideLeft : TigerAvatarRide;
+  } else {
+    tigerImage = TigerAvatar;
+  }
+
   return (
     <div className="garden-container">
       <div className="image-wrapper">
@@ -136,10 +202,14 @@ const Garden = () => {
         ></div>
 
         <img
-          src={TigerAvatar}
+          src={tigerImage}
           alt="My Avatar"
           className="avatar-inside-garden"
-          style={{ left: `${tigerX}%` }}
+          style={{
+            left: `${tigerX}%`,
+            bottom: `${jumpY}px`,
+            transition: 'bottom 0.05s linear',
+          }}
         />
 
         <div className="tree-layer">

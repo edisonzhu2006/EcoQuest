@@ -1,13 +1,16 @@
 const EcoQuestBackgroundImageDefault = 'https://ecoquest-storageofimages-3292025-princeton.s3.us-east-2.amazonaws.com/EcoQuest-DefaultGardenBackground.png';
-const TigerAvatar = 'https://ecoquest-storageofimages-3292025-princeton.s3.us-east-2.amazonaws.com/EcoQuest-GardenTigerAvatar.png';
-const OakTree = 'https://ecoquest-storageofimages-3292025-princeton.s3.us-east-2.amazonaws.com/EcoQuest-OakTree.png';
-const PalmTree = 'https://ecoquest-storageofimages-3292025-princeton.s3.us-east-2.amazonaws.com/EcoQuest-PalmTree.png';
-const PineTree = 'https://ecoquest-storageofimages-3292025-princeton.s3.us-east-2.amazonaws.com/EcoQuest-PineTree.png';
+const TigerAvatar = 'https://ecoquest-storageofimages-3292025-princeton.s3.us-east-2.amazonaws.com/EcoQuest-GardenTigerSkateboardStill.png';
+const TigerAvatarRide = 'https://ecoquest-storageofimages-3292025-princeton.s3.us-east-2.amazonaws.com/EcoQuest-GardenTigerSkateboardRide.png';
+const TigerAvatarJump = 'https://ecoquest-storageofimages-3292025-princeton.s3.us-east-2.amazonaws.com/EcoQuest-GardenTigerSkateboardJump.png';
+const TigerAvatarRideLeft = 'https://ecoquest-storageofimages-3292025-princeton.s3.us-east-2.amazonaws.com/EcoQuest-GardenTigerSkateboardRideLeft.png';
+const TigerAvatarJumpLeft = 'https://ecoquest-storageofimages-3292025-princeton.s3.us-east-2.amazonaws.com/EcoQuest-GardenTigerSkateboardJumpLeft.png';
+
 
 export {
   EcoQuestBackgroundImageDefault,
   TigerAvatar,
-  OakTree,
-  PalmTree,
-  PineTree,
+  TigerAvatarRide,
+  TigerAvatarJump,
+  TigerAvatarRideLeft,
+  TigerAvatarJumpLeft,
 };
