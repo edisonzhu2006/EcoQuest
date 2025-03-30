@@ -7,12 +7,6 @@ const UserItemSchema = new mongoose.Schema({
     quantity: Number
   });
 
-const UserTaskSchema = new mongoose.Schema({
-    task: { type: mongoose.Schema.Types.ObjectId, ref: "Task" },
-    completed: Boolean,
-    dateCompleted: Date
-  });
-
 // User model
 const UserSchema = mongoose.Schema(
     {

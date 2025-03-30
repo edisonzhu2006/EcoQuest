@@ -8,10 +8,8 @@ const TaskSchema = new mongoose.Schema({
 
 // Create separate models backed by different collections
 const WeeklyTask = mongoose.model("WeeklyTask", TaskSchema);
-const DailyTask = mongoose.model("DailyTask", TaskSchema);
 
 module.exports = {
   WeeklyTask,
-  DailyTask,
   TaskSchema
 };
